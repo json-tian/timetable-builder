@@ -1,0 +1,30 @@
+.timetable {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: 50px repeat(5, 105px);
+  grid-template-rows: repeat(28, 50px);
+  border: 1px solid #000;
+}
+
+.dayOfWeekWrapper {
+  display: grid;
+
+  grid-column: 1 / 7;
+  grid-gap: 10px;
+  grid-template-columns: 50px repeat(5, 105px);
+  margin-bottom: 10px;
+  border-bottom: 1px solid black;
+  justify-items: center;
+}
+
+.timeWrapper {
+  display: grid;
+  grid-row: 2 / 27;
+  margin: 5px;
+  grid-gap: 10px;
+  grid-template-rows: repeat(28, 50px);
+}
+p {
+  margin: 0;
+  padding: 0;
+}
