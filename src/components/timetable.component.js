@@ -270,8 +270,8 @@ export default class Timetable extends Component {
               onChange={this.updateSelect}
             />
 
-            <table className="table">
-              <thead className="thead-light">
+            <table className="table table-striped table-bordered">
+              <thead className="thead-dark">
                 <tr>
                   <th>Name</th>
                   <th>Code</th>
