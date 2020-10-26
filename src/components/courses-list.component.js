@@ -1,8 +1,10 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Select from "react-select";
 import CoursePopup from "./course-popup.component";
+import { GET_DISCIPLINE } from "../query";
+import { useQuery } from "@apollo/react-hooks";
 
 const Course = props => (
   <tr>
@@ -14,6 +16,24 @@ const Course = props => (
     </td>
   </tr>
 );
+
+function LoadCourses() {
+  const [state, setState] = useState([]);
+  const { loading, error, data } = useQuery(GET_DISCIPLINE);
+
+  if (loading) {
+    return null;
+  }
+
+  if (error) {
+    console.error(error);
+    return null;
+  }
+
+  if (data && data.queryDiscipline) {
+    setState({ disciplines: data.queryDiscipline });
+  }
+}
 
 export default class CoursesList extends Component {
   constructor(props) {
