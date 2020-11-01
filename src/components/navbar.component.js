@@ -15,11 +15,13 @@ export default class Navbar extends Component {
                 Courses
               </Link>
             </li>
+            {/* 
             <li className="navbar-item">
               <Link to="/create" className="nav-link">
                 Add Course
               </Link>
-            </li>
+            </li> 
+            */}
             <li className="navbar-item">
               <Link to="/timetable" className="nav-link">
                 Build Timetable

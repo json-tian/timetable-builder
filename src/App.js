@@ -20,7 +20,7 @@ function App() {
       <div className="container">
         <Route path="/" exact component={CoursesList} />
         <Route path="/edit/:id" component={EditCourse} />
-        <Route path="/create" component={CreateCourse} />
+        {/*<Route path="/create" component={CreateCourse} /> */}
         <Route path="/timetable" component={Timetable} />
       </div>
       <Footer />

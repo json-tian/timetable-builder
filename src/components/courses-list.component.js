@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Select from "react-select";
 import CoursePopup from "./course-popup.component";
-import { GET_DISCIPLINE } from "../query";
-import { useQuery } from "@apollo/react-hooks";
+import { GET_DISCIPLINE, GET_COURSE } from "../query";
+import { Query } from "react-apollo";
 
 const Course = props => (
   <tr>
@@ -17,30 +17,12 @@ const Course = props => (
   </tr>
 );
 
-function LoadCourses() {
-  const [state, setState] = useState([]);
-  const { loading, error, data } = useQuery(GET_DISCIPLINE);
-
-  if (loading) {
-    return null;
-  }
-
-  if (error) {
-    console.error(error);
-    return null;
-  }
-
-  if (data && data.queryDiscipline) {
-    setState({ disciplines: data.queryDiscipline });
-  }
-}
-
 export default class CoursesList extends Component {
   constructor(props) {
     super(props);
 
     this.deleteCourse = this.deleteCourse.bind(this);
-
+    this.createDisciplineList = this.createDisciplineList.bind(this);
     this.state = {
       courses: [],
       disciplines: [],
@@ -78,7 +60,8 @@ export default class CoursesList extends Component {
     });
   }
 
-  courseList() {
+  courseList(list) {
+    this.state.courses = list;
     return this.state.courses.map(currentcourse => {
       if (this.state.selectedDisciplines.length === 0) {
         return (
@@ -88,9 +71,7 @@ export default class CoursesList extends Component {
             key={currentcourse._id}
           />
         );
-      } else if (
-        this.state.selectedDisciplines.includes(currentcourse.discipline)
-      ) {
+      } else if (true) {
         return (
           <Course
             course={currentcourse}
@@ -100,6 +81,26 @@ export default class CoursesList extends Component {
         );
       }
     });
+  }
+
+  createDisciplineList(list) {
+    this.state.disciplines = [];
+
+    list.map(link => {
+      this.state.disciplines.push(link);
+    });
+    return (
+      <div>
+        <Select
+          options={this.disciplineList(this.state.disciplines)}
+          isSearchable="true"
+          isMulti="true"
+          value={this.disciplineList(this.getSelectedDisciplines)}
+          placeholder="Filter by Discipline"
+          onChange={this.updateSelectedDisciplines}
+        />
+      </div>
+    );
   }
 
   // Gets disciplines and converts to {value, label}
@@ -142,14 +143,16 @@ export default class CoursesList extends Component {
       <div>
         <div className="row">
           <div className="col-lg-3">
-            <Select
-              options={this.disciplineList(this.state.disciplines)}
-              isSearchable="true"
-              isMulti="true"
-              value={this.disciplineList(this.getSelectedDisciplines)}
-              placeholder="Filter by Discipline"
-              onChange={this.updateSelectedDisciplines}
-            />
+            <Query query={GET_DISCIPLINE}>
+              {({ loading, error, data }) => {
+                if (loading) return <div>Fetching</div>;
+                if (error) return <div>Error</div>;
+
+                const dataList = data.queryDiscipline;
+
+                return <div>{this.createDisciplineList(dataList)}</div>;
+              }}
+            </Query>
           </div>
 
           <div className="col-lg-9">
@@ -163,7 +166,16 @@ export default class CoursesList extends Component {
                   <th scope="col">Actions</th>
                 </tr>
               </thead>
-              <tbody>{this.courseList()}</tbody>
+              <Query query={GET_COURSE}>
+                {({ loading, error, data }) => {
+                  if (loading) return <div>Fetching</div>;
+                  if (error) return <div>Error</div>;
+
+                  const dataList = data.queryCourse;
+
+                  return <tbody>{this.courseList(dataList)}</tbody>;
+                }}
+              </Query>
             </table>
           </div>
         </div>
