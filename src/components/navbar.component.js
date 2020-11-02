@@ -11,7 +11,7 @@ export default class Navbar extends Component {
         <div className="collpase navbar-collapse">
           <ul className="navbar-nav mr-auto">
             <li className="navbar-item">
-              <Link to="/timetable-builder" className="nav-link">
+              <Link to="/timetable-builder/courses" className="nav-link">
                 Courses
               </Link>
             </li>
