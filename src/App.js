@@ -9,9 +9,6 @@ import EditCourse from "./components/edit-course.component";
 import CreateCourse from "./components/create-course.component";
 import Timetable from "./components/timetable.component";
 
-import { GET_DISCIPLINE } from "./query";
-import { useQuery } from "@apollo/react-hooks";
-
 function App() {
   return (
     <Router>

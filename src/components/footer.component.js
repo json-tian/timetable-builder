@@ -5,8 +5,7 @@ export default class Navbar extends Component {
     return (
       <footer className="page-footer mt-4">
         <div className="footer-copyright text-center py-3">
-          © 2020 Copyright:
-          <a href="https://mdbootstrap.com/"> MDBootstrap.com</a>
+          Made by Jason Tian, using Slash GraphQL
         </div>
       </footer>
     );

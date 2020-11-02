@@ -3,6 +3,10 @@ import axios from "axios";
 import Select from "react-select";
 import TableData from "./table.component";
 import "./timetable.css";
+import { GET_DISCIPLINE, GET_COURSE } from "../query";
+import { Query } from "react-apollo";
+import { generateTimetable } from "../generateTimetable";
+import { useAlert } from "react-alert";
 
 const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
@@ -47,16 +51,7 @@ export default class Timetable extends Component {
     };
   }
 
-  componentDidMount() {
-    axios
-      .get("http://localhost:5000/courses/")
-      .then(response => {
-        this.setState({ courses: response.data });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
+  componentDidMount() {}
 
   // returns list of course information by what's in selectedOptions
   courseList() {
@@ -194,36 +189,30 @@ export default class Timetable extends Component {
   }
 
   generate() {
-    console.log("generated");
+    let courseIds = this.state.selectedCourses[0];
     if (this.state.selectedCourses.length > 0) {
-      this.getCourseNames().then(result => {
-        let courseArr = [];
-        result.forEach(item => {
-          courseArr.push(item);
-        });
-        let payload = {
-          courses: courseArr
-        };
-        axios
-          .post("http://localhost:5000/courses/getTimetable", payload)
-          .then(response => {
-            this.setState(
-              {
-                allTimes: response.data,
-                currentPage: 1,
-                totalPage: response.data.length
-              },
-              () => {
-                if (this.state.totalPage === 0) {
-                  this.setState({
-                    currentPage: 0
-                  });
-                } else {
-                  this.updateTimes();
-                }
-              }
-            );
-          });
+      courseIds.pop();
+      console.log(courseIds);
+      console.log("generated");
+      generateTimetable(courseIds).then(response => {
+        console.log(response);
+
+        this.setState(
+          {
+            allTimes: response,
+            currentPage: 1,
+            totalPage: response.length
+          },
+          () => {
+            if (this.state.totalPage === 0) {
+              this.setState({
+                currentPage: 0
+              });
+            } else {
+              this.updateTimes();
+            }
+          }
+        );
       });
     }
   }
@@ -254,21 +243,51 @@ export default class Timetable extends Component {
     }
   }
 
+  createSelectedCourses(list, selectedOptions) {
+    this.state.courses = [];
+    list.map(item => {
+      this.state.courses.push(item);
+    });
+
+    return (
+      <div>
+        <Select
+          options={this.courseNameList()}
+          isSearchable="true"
+          isMulti="true"
+          value={selectedOptions}
+          placeholder="Choose courses"
+          onChange={this.updateSelect}
+        />
+      </div>
+    );
+  }
+
   render() {
     const { selectedOptions } = this.state;
     return (
       <div>
         <div className="row">
           <div className="col-lg-5">
-            <h3>Logged Courses</h3>
-            <Select
-              options={this.courseNameList()}
-              isSearchable="true"
-              isMulti="true"
-              value={selectedOptions}
-              placeholder="Choose courses"
-              onChange={this.updateSelect}
-            />
+            <p>
+              Select at least 1 course and press Generate Timetables to see the
+              magic!
+            </p>
+            <h3>Selected Courses</h3>
+            <Query query={GET_COURSE}>
+              {({ loading, error, data }) => {
+                if (loading) return <div>Fetching</div>;
+                if (error) return <div>Error</div>;
+
+                const dataList = data.queryCourse;
+
+                return (
+                  <React.Fragment>
+                    {this.createSelectedCourses(dataList, selectedOptions)}
+                  </React.Fragment>
+                );
+              }}
+            </Query>
 
             <table className="table table-striped table-bordered">
               <thead className="thead-dark">
@@ -297,7 +316,9 @@ export default class Timetable extends Component {
               <b>&lt;</b>
             </button>
             <span className="generate">
-              {this.state.currentPage}/{this.state.totalPage}
+              <b>
+                {this.state.currentPage}/{this.state.totalPage}
+              </b>
             </span>
             <button
               className="btn btn-secondary generate"
@@ -305,6 +326,7 @@ export default class Timetable extends Component {
             >
               <b>&gt;</b>
             </button>
+            <p>Scroll through generated timetables!</p>
             <div className="timetable">
               <section className="dayOfWeekWrapper">
                 {this.showDayOfWeek()}
