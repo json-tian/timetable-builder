@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/timetable-builder/static/css/main.263a701c.chunk.css",
-    "main.js": "/timetable-builder/static/js/main.efae8fa6.chunk.js",
-    "main.js.map": "/timetable-builder/static/js/main.efae8fa6.chunk.js.map",
+    "main.js": "/timetable-builder/static/js/main.69b2574e.chunk.js",
+    "main.js.map": "/timetable-builder/static/js/main.69b2574e.chunk.js.map",
     "runtime-main.js": "/timetable-builder/static/js/runtime-main.d592924f.js",
     "runtime-main.js.map": "/timetable-builder/static/js/runtime-main.d592924f.js.map",
     "static/css/2.b56a0318.chunk.css": "/timetable-builder/static/css/2.b56a0318.chunk.css",
     "static/js/2.52c146c3.chunk.js": "/timetable-builder/static/js/2.52c146c3.chunk.js",
     "static/js/2.52c146c3.chunk.js.map": "/timetable-builder/static/js/2.52c146c3.chunk.js.map",
     "index.html": "/timetable-builder/index.html",
-    "precache-manifest.c25e071f0cb22f058b071cc97188d108.js": "/timetable-builder/precache-manifest.c25e071f0cb22f058b071cc97188d108.js",
+    "precache-manifest.98267b249c325e579d7b18ea47bee066.js": "/timetable-builder/precache-manifest.98267b249c325e579d7b18ea47bee066.js",
     "service-worker.js": "/timetable-builder/service-worker.js",
     "static/css/2.b56a0318.chunk.css.map": "/timetable-builder/static/css/2.b56a0318.chunk.css.map",
     "static/css/main.263a701c.chunk.css.map": "/timetable-builder/static/css/main.263a701c.chunk.css.map",
@@ -20,6 +20,6 @@
     "static/css/2.b56a0318.chunk.css",
     "static/js/2.52c146c3.chunk.js",
     "static/css/main.263a701c.chunk.css",
-    "static/js/main.efae8fa6.chunk.js"
+    "static/js/main.69b2574e.chunk.js"
   ]
 }
