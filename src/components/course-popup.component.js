@@ -3,29 +3,27 @@ import "./popup.styles.css";
 import { Button, Modal } from "react-bootstrap";
 import * as Constants from "../constants/dates";
 
-function displayDates(dates) {
-  return dates.map(currentdate => {
+function displayDates(items) {
+  return items.map(item => {
     return (
       <React.Fragment>
-        {Constants.DAYOFWEEK[currentdate.dayOfWeek - 1]} {currentdate.startTime}
-        {":00"}
-        {" - "}
-        {currentdate.endTime}
-        {":00"}
-        <br></br>
+        <th scope="row">Choice {item[0].section}</th>
+        <td>
+          {Constants.DAYOFWEEK[item[0].dayOfWeek - 1]} {item[0].startTime}
+          {":00"}
+          {" - "}
+          {item[0].endTime}
+          {":00"}
+          <br></br>
+        </td>
+        <td>{item[1]}</td>
+        <td>{item[2]}</td>
       </React.Fragment>
     );
   });
 }
 
-const Row = props => (
-  <tr>
-    <th scope="row">Lecture {props.date[0].section}</th>
-    <td>{displayDates(props.date)}</td>
-    <td>-</td>
-    <td>---</td>
-  </tr>
-);
+const Row = props => <tr>{displayDates(props.data)}</tr>;
 
 class Popup extends Component {
   state = {
@@ -41,11 +39,11 @@ class Popup extends Component {
     for (let i = 1; i <= this.state.course.sections; i++) {
       for (const [index, value] of this.state.course.dates.entries()) {
         if (value.section === i) {
-          items.push(value);
+          items.push([value, value.location, this.state.course.instructor]);
         }
       }
       // render times
-      rowData.push(<Row date={items}></Row>);
+      rowData.push(<Row data={items}></Row>);
       items = [];
     }
     return rowData;

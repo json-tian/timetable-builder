@@ -189,12 +189,20 @@ export default class Timetable extends Component {
   }
 
   generate() {
-    let courseIds = this.state.selectedCourses[0];
-    if (this.state.selectedCourses.length > 0) {
-      courseIds.pop();
-      console.log(courseIds);
+    let courseIds = this.state.selectedCourses.slice(
+      0,
+      this.state.selectedCourses.length
+    );
+    let courses = [];
+    for (let i = 0; i < courseIds.length; i++) {
+      courses.push(courseIds[i][0]);
+    }
+
+    if (courses.length > 0) {
+      //courseIds.pop();
+      console.log(courses);
       console.log("generated");
-      generateTimetable(courseIds).then(response => {
+      generateTimetable(courses).then(response => {
         console.log(response);
 
         this.setState(
@@ -294,9 +302,8 @@ export default class Timetable extends Component {
                 <tr>
                   <th>Name</th>
                   <th>Code</th>
-                  <th>Dates</th>
-                  <th>Section</th>
-                  <th>Actions</th>
+                  <th>Choices</th>
+                  <th>Option</th>
                 </tr>
               </thead>
               <tbody>{this.courseList()}</tbody>
@@ -326,7 +333,7 @@ export default class Timetable extends Component {
             >
               <b>&gt;</b>
             </button>
-            <p>Scroll through generated timetables!</p>
+            <p>Scroll through the different possible timetables!</p>
             <div className="timetable">
               <section className="dayOfWeekWrapper">
                 {this.showDayOfWeek()}

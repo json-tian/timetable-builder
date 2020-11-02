@@ -30,37 +30,18 @@ export default class CoursesList extends Component {
     };
   }
 
-  componentDidMount() {
-    axios
-      .get("http://localhost:5000/courses/")
-      .then(response => {
-        this.setState({ courses: response.data });
-      })
-      .catch(error => {
-        console.log(error);
-      });
+  componentDidMount() {}
 
-    axios
-      .get("http://localhost:5000/disciplines/")
-      .then(response => {
-        this.setState({ disciplines: response.data });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-
-  deleteCourse(id) {
-    axios.delete("http://localhost:5000/courses/" + id).then(response => {
-      console.log(response.data);
-    });
-
-    this.setState({
-      courses: this.state.courses.filter(el => el._id !== id)
-    });
-  }
+  deleteCourse(id) {}
 
   courseList(list) {
+    console.log(this.state.selectedDisciplines);
+    let disciplines = [];
+    for (let i = 0; i < this.state.disciplines.length; i++) {
+      disciplines.push(this.state.disciplines[i].name);
+    }
+
+    console.log(this.state.disciplines);
     this.state.courses = list;
     return this.state.courses.map(currentcourse => {
       if (this.state.selectedDisciplines.length === 0) {
@@ -71,7 +52,11 @@ export default class CoursesList extends Component {
             key={currentcourse._id}
           />
         );
-      } else if (true) {
+      } else if (
+        this.state.selectedDisciplines.includes(
+          disciplines[parseInt(currentcourse.discipline_id) - 1]
+        )
+      ) {
         return (
           <Course
             course={currentcourse}

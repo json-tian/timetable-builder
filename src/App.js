@@ -15,10 +15,10 @@ function App() {
       <Navbar />
       <br />
       <div className="container">
-        <Route path="/" exact component={CoursesList} />
-        <Route path="/edit/:id" component={EditCourse} />
+        <Route path="/timetable-builder" exact component={CoursesList} />
+        <Route path="/timetable-builder/edit/:id" component={EditCourse} />
         {/*<Route path="/create" component={CreateCourse} /> */}
-        <Route path="/timetable" component={Timetable} />
+        <Route path="/timetable-builder/timetable" component={Timetable} />
       </div>
       <Footer />
     </Router>

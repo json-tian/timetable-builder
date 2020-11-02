@@ -5,13 +5,13 @@ export default class Navbar extends Component {
   render() {
     return (
       <nav className="navbar navbar-dark bg-dark navbar-expand-lg">
-        <Link to="/" className="navbar-brand">
+        <Link to="/timetable-builder" className="navbar-brand">
           Timetable Builder
         </Link>
         <div className="collpase navbar-collapse">
           <ul className="navbar-nav mr-auto">
             <li className="navbar-item">
-              <Link to="/" className="nav-link">
+              <Link to="/timetable-builder" className="nav-link">
                 Courses
               </Link>
             </li>
@@ -23,7 +23,7 @@ export default class Navbar extends Component {
             </li> 
             */}
             <li className="navbar-item">
-              <Link to="/timetable" className="nav-link">
+              <Link to="/timetable-builder/timetable" className="nav-link">
                 Build Timetable
               </Link>
             </li>
